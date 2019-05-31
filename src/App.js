@@ -5,7 +5,9 @@ import {grommet} from 'grommet/themes'
 import logo from './logo.svg'
 import configureStore from './store'
 import './App.css';
-import Rooms from './components/Rooms'
+import Devices from './components/Devices'
+import Switch from './components/Switch'
+import Thermostat from './components/Thermostat'
 
 function App() {
   return (
@@ -27,7 +29,11 @@ function App() {
           </a>
         </header>
 
-        <Rooms rooms={[{id: 1, label: "Test Room"}]} />
+        <Devices devices={[{id: 1, label: "Test Device"}]} />
+        <Switch label="Device 1" on="false" />
+        <div className="Thermostat">
+          <Thermostat />
+        </div>
       </div>
       </Grommet>
     </Provider>
