@@ -1,9 +1,19 @@
-package server
+package main
 
 // make that a proto
 
 // TODO - probably move this to its own dir
 type Map map[string]interface{}
+
+type FullfillmentRequest struct {
+	RequestID string                     `json:"requestId"`
+	Inputs    []FullfillmentRequestInput `json:"inputs"`
+}
+
+type FullfillmentRequestInput struct {
+	Intent  SmartHomeV1Intents     `json:"intent"`
+	Payload map[string]interface{} `json:"payload"`
+}
 
 type SmartHomeV1Intents string
 
@@ -35,12 +45,12 @@ type SmartHomeV1SyncRequest struct {
 }
 
 type SmartHomeV1QueryRequestDevices struct {
-	id         string
-	customData Map
+	Id         string `json:"id"`
+	CustomData Map    `json:"customData"`
 }
 
 type SmartHomeV1QueryRequestPayload struct {
-	devices []SmartHomeV1QueryRequestDevices
+	Devices []SmartHomeV1QueryRequestDevices `json:"devices"`
 }
 
 type SmartHomeV1QueryRequestInputs struct {
@@ -95,50 +105,51 @@ type SmartHomeV1DisconnectRequest struct {
 //   SmartHomeV1ExecuteRequest | SmartHomeV1DisconnectRequest
 
 type SmartHomeV1SyncName struct {
-	defaultNames []string
-	name         string
-	nicknames    []string
+	DefaultNames []string `json:"defaultNames"`
+	Name         string   `json:"name"`
+	Nicknames    []string `json:"nicknames"`
 }
 
 type SmartHomeV1SyncDeviceInfo struct {
-	manufacturer string
-	model        string
-	hwVersion    string
-	swVersion    string
+	Manufacturer string `json:"manufacturer"`
+	Model        string `json:"model"`
+	HwVersion    string `json:"hwVersion"`
+	SwVersion    string `json:"swVersion"`
 }
 
 type SmartHomeV1SyncOtherDeviceIds struct {
-	agentId  string
-	deviceId string
+	AgentId  string `json:"agentId,omitempty"`
+	DeviceId string `json:"deviceId"`
 }
 
 type SmartHomeV1SyncDevices struct {
-	id              string
-	deviceType      string
-	traits          []string
-	name            SmartHomeV1SyncName
-	willReportState bool
-	deviceInfo      SmartHomeV1SyncDeviceInfo
-	attributes      Map
-	customData      Map
-	roomHint        string
-	otherDeviceIds  []SmartHomeV1SyncOtherDeviceIds
+	ID              string                          `json:"id"`
+	DeviceType      string                          `json:"type"`
+	Traits          []string                        `json:"traits"`
+	Name            SmartHomeV1SyncName             `json:"name"`
+	WillReportState bool                            `json:"willReportState"`
+	DeviceInfo      SmartHomeV1SyncDeviceInfo       `json:"deviceInfo"`
+	Attributes      Map                             `json:"attributes"`
+	CustomData      Map                             `json:"customData,omitempty"`
+	RoomHint        string                          `json:"roomHint,omitempty"`
+	OtherDeviceIds  []SmartHomeV1SyncOtherDeviceIds `json:"otherDeviceIds,omitempty"`
 }
 
-type SmartHomeV1SyncPayload struct {
-	agentUserId string
-	errorCode   string
-	debugString string
-	devices     []SmartHomeV1SyncDevices
+type FullfillmentResponsePayload struct {
+	AgentUserId string      `json:"agentUserId"`
+	ErrorCode   string      `json:"errorCode,omitempty"`
+	DebugString string      `json:"debugString,omitempty"`
+	Devices     interface{} `json:"devices,omitempty"`
+	Commands    interface{} `json:"commands,omitempty"`
 }
 
-type SmartHomeV1SyncResponse struct {
-	requestId string
-	payload   SmartHomeV1SyncPayload
+type FullfillmentResponse struct {
+	RequestId string                      `json:"requestId"`
+	Payload   FullfillmentResponsePayload `json:"payload"`
 }
 
 type SmartHomeV1QueryPayload struct {
-	devices Map
+	Devices Map `json:"devices"`
 }
 
 type SmartHomeV1QueryResponse struct {
